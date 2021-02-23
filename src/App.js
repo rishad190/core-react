@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
   const friendName=['rahul','ratul','rishad','rifat','zain'];
@@ -26,6 +27,8 @@ console.log(product);
   return (
     <div className="App">
       <header className="App-header">
+        <User></User>
+        <Counter></Counter>
         <ul>
           {
             friendName.map(nam => <li>{nam}</li>)
@@ -66,5 +69,39 @@ function Product(props) {
     </div>
   )
   
+}
+function Counter() {
+  const [count,setCount] = useState(10);
+  const handleIncrease = () => {
+    const newCount = count+1;
+    setCount(newCount);
+  };
+  return(
+    <div>
+      <h1>Count:{count}</h1>
+      <button onClick={handleIncrease}>Increase</button>
+      <button onClick={()=>setCount(count-1)}>Decrease</button>
+    </div>
+  )
+}
+function User() {
+  const [user,setUsers] = useState([]);
+
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res =>res.json())
+    .then(data =>setUsers(data));
+  },[])
+
+  return(
+    <div>
+      <h3>Dynamic userS: {user.length}</h3>
+      <ul>
+        {
+          user.map(users => <li>{users.name}</li>)
+        }
+      </ul>
+    </div>
+  )
 }
 export default App;
